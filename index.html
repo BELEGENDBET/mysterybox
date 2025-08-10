@@ -999,7 +999,7 @@
   <script>
     // ====== CONFIGURATION ======
     // GANTI URL GOOGLE APPS SCRIPT DI SINI:
-    const GAS_WEB_APP_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhFbrUtdoDgwwmiXXFBIcAs5BsPUbizsUNJqMEekPxHDydJS_94GIkxJBfJ_MM3Dgr7a2q5771eE8JVguOhvXGciJSzdCdRm-556iadO3y3QsIoE3mMMHRQEUVQC6wUd0fnA1LML1ULE1FBaxeCrqYDgx_gDJwCK3PatZIPhFum56ni0X1z2CXzKs0pVT1hXC6CTiMqMQZEzk179W_aE_CefpUq51Tef_9Baf_n91BD8PhSEKUTqvyGQvbC3NWipsUgqVeSn1RSn4cgI8v6HMFo0id3Nw&lib=MmhAqoGCeBkkbH4tqXXBCemaF27sfQqfd';
+    const GAS_WEB_APP_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLiF5imrs8oqUW5AAcU32MlcYdOv6rM27n4iEcxk86HtSDWZDosHzVBwMMzT4xJ_jTwLUZoibxSEzaymleeogUElhB_O0uWb-_DyBcmOyq-9b1xrFmu_sK7z9vlTERFfxAiuiJxkVK2N9-JQof_ZnyNZ8lVcQIAEQC1gTn-0kqgsTzIpTSnM6rZP9YWi_eu_3obw25P00-kK1I85ga5snIWEJUYaZPOqLUGBawakMod5QV2KeLwmSWhiaus_rXY2rEf00iOnVDQa8dHXOWlkEPC_crtgNQ&lib=MmhAqoGCeBkkbH4tqXXBCemaF27sfQqfd';
 
     
     // ====== GLOBAL VARIABLES ======
@@ -1053,7 +1053,10 @@
         console.log('Calling URL:', url);
         
         const response = await fetch(url, {
-          method: 'GET'
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
         if (!response.ok) {
@@ -1103,7 +1106,7 @@
       showLoading();
 
       try {
-        // Call Google Apps Script menggunakan GET request
+        // Call Google Apps Script using GET request
         const response = await callGoogleAppsScript(input, userId);
 
         hideLoading();
