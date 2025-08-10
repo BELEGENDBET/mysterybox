@@ -861,10 +861,6 @@
           <div class="hadiah-card"><span>💰</span>Rp 30.000</div>
           <div class="hadiah-card"><span>💰</span>Rp 50.000</div>
         </div>
-        <div style="color: #8B4513; font-size: 0.9rem; margin-bottom: 20px; font-weight: 600;">
-          * Hadiah ditentukan berdasarkan jumlah deposit<br>
-          Semakin besar deposit, semakin besar peluang hadiah utama!
-        </div>
         <button class="hadiah-list-close" onclick="closeHadiahList()">TUTUP</button>
       </div>
     </div>
@@ -916,10 +912,10 @@
     let currentCode = null;
     let currentUserId = null;
     
-    // Daftar hadiah yang bisa didapat (hanya 3 hadiah kecil)
+    // Daftar hadiah yang bisa didapat (sesuai deposit: 20K-34K=4K, 35K-49K=6K, 50K+=8K)
     const actualPrizes = [4000, 6000, 8000];
     
-    // Daftar hadiah untuk ditampilkan di box lain (semua hadiah)
+    // Daftar hadiah untuk ditampilkan di box lain (untuk efek visual - termasuk hadiah besar)
     const displayPrizes = [4000, 6000, 8000, 10000, 15000, 25000, 30000, 50000];
 
     // ====== UTILITY FUNCTIONS ======
@@ -1031,8 +1027,8 @@
         hideLoading();
 
         if (response.success) {
-          // Generate random prize from actualPrizes only
-          currentPrize = getRandomPrize();
+          // Prize sudah ditentukan oleh server berdasarkan deposit
+          currentPrize = response.data.prize;
           currentCode = input;
           currentUserId = userId;
           
