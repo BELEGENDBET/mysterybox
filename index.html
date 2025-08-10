@@ -336,7 +336,7 @@
 
     .hadiah-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       margin-bottom: 30px;
       width: 100%;
@@ -834,7 +834,7 @@
       }
 
       .hadiah-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
       }
     }
@@ -863,7 +863,7 @@
       }
 
       .hadiah-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
     }
@@ -934,16 +934,18 @@
     <!-- TOMBOL LIHAT DAFTAR HADIAH -->
     <button id="lihatHadiahBtn" type="button">💎 LIHAT HADIAH SPEKTAKULER</button>
 
-    <!-- MODAL DAFTAR HADIAH -->
+    <!-- MODAL DAFTAR HADIAH (4x2 Layout) -->
     <div id="popupHadiahList">
       <div class="hadiah-list-modal">
         <div class="hadiah-list-title">🏆 HADIAH MENANTI ANDA! 🏆</div>
         <div class="hadiah-subtitle">Semua hadiah ini bisa Anda dapatkan! Pilih mystery box dengan hati-hati dan raih kesempatan emas!</div>
         <div class="hadiah-grid">
+          <!-- Baris Atas -->
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 4.000</div></div>
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 6.000</div></div>
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 8.000</div></div>
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 10.000</div></div>
+          <!-- Baris Bawah -->
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 15.000</div></div>
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 25.000</div></div>
           <div class="hadiah-card"><span>💰</span><div class="amount">Rp 30.000</div></div>
@@ -1004,7 +1006,8 @@
     let currentPrize = null;
     let currentCode = null;
     let currentUserId = null;
-    let displayPrizes = []; // Akan diisi dari server response
+    // Hadiah yang ditampilkan di HTML (untuk efek visual)
+    const displayPrizes = [4000, 6000, 8000, 10000, 15000, 25000, 30000, 50000];
 
     // ====== UTILITY FUNCTIONS ======
     function createParticles() {
@@ -1043,14 +1046,13 @@
     }
 
     // ====== API FUNCTIONS ======
-    async function callGoogleAppsScript(data) {
+    async function callGoogleAppsScript(kode, userid) {
       try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
+        const url = `${GAS_WEB_APP_URL}?kode=${encodeURIComponent(kode)}&userid=${encodeURIComponent(userid)}`;
+        console.log('Calling URL:', url);
+        
+        const response = await fetch(url, {
+          method: 'GET'
         });
 
         if (!response.ok) {
@@ -1100,23 +1102,16 @@
       showLoading();
 
       try {
-        // Call Google Apps Script
-        const response = await callGoogleAppsScript({
-          action: 'checkCode',
-          code: input,
-          userId: userId
-        });
+        // Call Google Apps Script menggunakan GET request
+        const response = await callGoogleAppsScript(input, userId);
 
         hideLoading();
 
-        if (response.success) {
-          // Ambil hadiah yang akan didapat user (sudah ditentukan server)
-          currentPrize = response.data.prize;
+        if (response.hadiah) {
+          // Ambil hadiah yang akan didapat user (sudah ditentukan server berdasarkan deposit)
+          currentPrize = response.hadiah;
           currentCode = input;
           currentUserId = userId;
-          
-          // Ambil semua hadiah untuk display (dari server)
-          displayPrizes = response.data.displayPrizes || [4000, 6000, 8000, 10000, 15000, 25000, 30000, 50000];
           
           // Hide form and prize list button
           form.classList.add('fade-out');
@@ -1140,11 +1135,11 @@
           
           document.getElementById('result').textContent = '';
         } else {
-          showCustomPopup(response.message);
+          showCustomPopup(response.reason || 'Kode tidak valid atau sudah digunakan!');
         }
       } catch (error) {
         hideLoading();
-        showCustomPopup("❌ Terjadi kesalahan koneksi. Pastikan Google Apps Script sudah di-deploy dengan benar dan coba lagi!");
+        showCustomPopup("❌ Terjadi kesalahan koneksi. Pastikan URL Google Apps Script sudah benar dan coba lagi!");
         console.error('Submit error:', error);
       } finally {
         submitBtn.disabled = false;
@@ -1211,21 +1206,6 @@
           document.getElementById('result').textContent = `🎊 LUAR BIASA! Anda meraih hadiah ${formatRupiah(currentPrize)}! 🎊`;
         }, 800);
 
-        // Update Google Sheets
-        setTimeout(async () => {
-          try {
-            await callGoogleAppsScript({
-              action: 'updateResult',
-              code: currentCode,
-              userId: currentUserId,
-              prize: currentPrize
-            });
-            console.log('Sheet updated successfully');
-          } catch (error) {
-            console.error('Error updating sheet:', error);
-          }
-        }, 1000);
-
         // Show popup after all animations
         setTimeout(() => {
           showPopupHadiah(formatRupiah(currentPrize));
@@ -1275,6 +1255,13 @@
     document.getElementById('customPopup').addEventListener('click', function(e) {
       if (e.target === this) {
         closeCustomPopup();
+      }
+    });
+
+    document.getElementById('popupHadiah').addEventListener('click', function(e) {
+      if (e.target === this) {
+        document.getElementById('popupHadiah').style.display = 'none';
+        document.body.style.overflow = '';
       }
     });
 
