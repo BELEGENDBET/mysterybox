@@ -325,6 +325,15 @@
       z-index: 2;
     }
 
+    .hadiah-subtitle {
+      font-size: 1.1rem;
+      color: #8B4513;
+      font-weight: 600;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
     .hadiah-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -358,23 +367,58 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      animation: cardFloat 0.6s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .hadiah-card:nth-child(1) { animation-delay: 0.1s; }
+    .hadiah-card:nth-child(2) { animation-delay: 0.15s; }
+    .hadiah-card:nth-child(3) { animation-delay: 0.2s; }
+    .hadiah-card:nth-child(4) { animation-delay: 0.25s; }
+    .hadiah-card:nth-child(5) { animation-delay: 0.3s; }
+    .hadiah-card:nth-child(6) { animation-delay: 0.35s; }
+    .hadiah-card:nth-child(7) { animation-delay: 0.4s; }
+    .hadiah-card:nth-child(8) { animation-delay: 0.45s; }
+
+    @keyframes cardFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8) rotate(-5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
     }
 
     .hadiah-card:hover {
-      transform: translateY(-5px) scale(1.05);
+      transform: translateY(-5px) scale(1.05) rotate(1deg);
       box-shadow: 
         0 12px 30px rgba(255, 215, 0, 0.3),
         0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
     .hadiah-card span {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: #B8860B;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       position: relative;
       z-index: 2;
+      animation: iconBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes iconBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .hadiah-card .amount {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #8B4513;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
     }
 
     .hadiah-list-close {
@@ -393,6 +437,11 @@
       letter-spacing: 0.05em;
       position: relative;
       z-index: 2;
+    }
+
+    .hadiah-list-close:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
     }
 
     /* Loading Spinner */
@@ -433,6 +482,44 @@
     #boxContainer.visible {
       display: flex;
       opacity: 1;
+    }
+
+    .box-instruction {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 224, 102, 0.05) 100%);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      animation: instructionPulse 3s ease-in-out infinite;
+    }
+
+    .box-instruction h3 {
+      color: #ffe066;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      text-shadow: 0 2px 10px rgba(255, 224, 102, 0.4);
+    }
+
+    .box-instruction p {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    @keyframes instructionPulse {
+      0%, 100% { 
+        border-color: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+      }
+      50% { 
+        border-color: rgba(255, 215, 0, 0.6);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+      }
     }
 
     .box-row {
@@ -484,10 +571,10 @@
     .mysteryBox:nth-child(2) { transition-delay: 0.2s; }
     .mysteryBox:nth-child(3) { transition-delay: 0.3s; }
     .mysteryBox:nth-child(4) { transition-delay: 0.4s; }
-    .box-row:nth-child(2) .mysteryBox:nth-child(1) { transition-delay: 0.5s; }
-    .box-row:nth-child(2) .mysteryBox:nth-child(2) { transition-delay: 0.6s; }
-    .box-row:nth-child(2) .mysteryBox:nth-child(3) { transition-delay: 0.7s; }
-    .box-row:nth-child(2) .mysteryBox:nth-child(4) { transition-delay: 0.8s; }
+    .box-row:nth-child(3) .mysteryBox:nth-child(1) { transition-delay: 0.5s; }
+    .box-row:nth-child(3) .mysteryBox:nth-child(2) { transition-delay: 0.6s; }
+    .box-row:nth-child(3) .mysteryBox:nth-child(3) { transition-delay: 0.7s; }
+    .box-row:nth-child(3) .mysteryBox:nth-child(4) { transition-delay: 0.8s; }
 
     .mysteryBox.glow {
       animation: floatGlow 2s ease-in-out infinite alternate;
@@ -831,41 +918,47 @@
 
   <div class="container">
     <div class="brand-3d">BELEGENDBET</div>
-    <h1>EVENT MYSTERY BOX – KLIK BOX & DAPATKAN HADIAHNYA!</h1>
+    <h1>🎁 MYSTERY BOX BERHADIAH JUTAAN RUPIAH! 🎁<br>Pilih box dan menangkan hadiah spektakuler!</h1>
 
     <form id="userForm" onsubmit="submitCode(); return false;">
       <label for="userIdInput">ID Kamu</label>
       <input type="text" class="input-custom" id="userIdInput" placeholder="Masukkan ID Pengguna" autocomplete="off" maxlength="20" />
       <label for="userInput">Kode Tiket</label>
       <input type="text" class="input-custom" id="userInput" placeholder="Masukkan Kode Tiket" autocomplete="off" maxlength="20" />
-      <button id="submitBtn" type="submit">Mulai Permainan</button>
+      <button id="submitBtn" type="submit">🚀 Mulai Berburu Hadiah</button>
     </form>
 
     <!-- Loading Spinner -->
     <div class="loading" id="loading"></div>
 
     <!-- TOMBOL LIHAT DAFTAR HADIAH -->
-    <button id="lihatHadiahBtn" type="button">🎁 LIHAT DAFTAR HADIAH</button>
+    <button id="lihatHadiahBtn" type="button">💎 LIHAT HADIAH SPEKTAKULER</button>
 
     <!-- MODAL DAFTAR HADIAH -->
     <div id="popupHadiahList">
       <div class="hadiah-list-modal">
-        <div class="hadiah-list-title">🏆 DAFTAR HADIAH TERSEDIA 🏆</div>
+        <div class="hadiah-list-title">🏆 HADIAH MENANTI ANDA! 🏆</div>
+        <div class="hadiah-subtitle">Semua hadiah ini bisa Anda dapatkan! Pilih mystery box dengan hati-hati dan raih kesempatan emas!</div>
         <div class="hadiah-grid">
-          <div class="hadiah-card"><span>💰</span>Rp 4.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 6.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 8.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 10.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 15.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 25.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 30.000</div>
-          <div class="hadiah-card"><span>💰</span>Rp 50.000</div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 4.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 6.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 8.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 10.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 15.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 25.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 30.000</div></div>
+          <div class="hadiah-card"><span>💰</span><div class="amount">Rp 50.000</div></div>
         </div>
-        <button class="hadiah-list-close" onclick="closeHadiahList()">TUTUP</button>
+        <button class="hadiah-list-close" onclick="closeHadiahList()">MULAI BERBURU!</button>
       </div>
     </div>
 
     <div id="boxContainer">
+      <div class="box-instruction">
+        <h3>✨ PILIH BOX KEBERUNTUNGAN ANDA! ✨</h3>
+        <p>Setiap box berisi hadiah menarik. Klik satu box dan saksikan keajaiban terjadi!</p>
+      </div>
+      
       <div class="box-row">
         <div class="mysteryBox glow" onclick="openBox(0)"><span class="icon">🎁</span></div>
         <div class="mysteryBox glow" onclick="openBox(1)"><span class="icon">🎁</span></div>
@@ -885,10 +978,10 @@
   <!-- POP UP HADIAH -->
   <div id="popupHadiah">
     <div class="popup-content">
-      <div class="popup-title">🎉 SELAMAT! 🎉</div>
+      <div class="popup-title">🎉 JACKPOT! 🎉</div>
       <div class="popup-hadiah" id="popupTextHadiah"></div>
-      <div class="popup-info">Kamu berhasil mendapatkan hadiah Mystery Box!<br><strong>Klaim hadiah sekarang di Telegram:</strong></div>
-      <a class="popup-link" id="popupBtnTelegram" href="https://t.me/BELEGENDBET" target="_blank" rel="noopener">Klaim Sekarang</a>
+      <div class="popup-info">🔥 SELAMAT! Anda berhasil memenangkan hadiah besar!<br><strong>Segera klaim di Telegram sebelum terlambat!</strong></div>
+      <a class="popup-link" id="popupBtnTelegram" href="https://t.me/BELEGENDBET" target="_blank" rel="noopener">💎 KLAIM SEKARANG!</a>
     </div>
   </div>
 
@@ -911,22 +1004,17 @@
     let currentPrize = null;
     let currentCode = null;
     let currentUserId = null;
-    
-    // Daftar hadiah yang bisa didapat (sesuai deposit: 20K-34K=4K, 35K-49K=6K, 50K+=8K)
-    const actualPrizes = [4000, 6000, 8000];
-    
-    // Daftar hadiah untuk ditampilkan di box lain (untuk efek visual - termasuk hadiah besar)
-    const displayPrizes = [4000, 6000, 8000, 10000, 15000, 25000, 30000, 50000];
+    let displayPrizes = []; // Akan diisi dari server response
 
     // ====== UTILITY FUNCTIONS ======
     function createParticles() {
       const particlesContainer = document.getElementById('particles');
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = Math.random() * 100 + 'vw';
         particle.style.animationDelay = Math.random() * 6 + 's';
-        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
         particlesContainer.appendChild(particle);
       }
     }
@@ -952,11 +1040,6 @@
 
     function hideLoading() {
       document.getElementById('loading').style.display = 'none';
-    }
-
-    // Random prize selection dari actualPrizes saja
-    function getRandomPrize() {
-      return actualPrizes[Math.floor(Math.random() * actualPrizes.length)];
     }
 
     // ====== API FUNCTIONS ======
@@ -990,11 +1073,11 @@
       
       // Validation
       if (!userId) { 
-        showCustomPopup('🚫 ID pengguna harus diisi!'); 
+        showCustomPopup('🚫 ID pengguna harus diisi untuk berburu hadiah!'); 
         return; 
       }
       if (!input) { 
-        showCustomPopup('🚫 Kode tiket harus diisi!'); 
+        showCustomPopup('🚫 Kode tiket adalah kunci keberuntungan Anda!'); 
         return; 
       }
       if (!/^[a-zA-Z0-9]+$/.test(userId)) { 
@@ -1013,7 +1096,7 @@
       
       // UI State
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Memproses...';
+      submitBtn.textContent = '🔍 Mencari Harta Karun...';
       showLoading();
 
       try {
@@ -1027,10 +1110,13 @@
         hideLoading();
 
         if (response.success) {
-          // Prize sudah ditentukan oleh server berdasarkan deposit
+          // Ambil hadiah yang akan didapat user (sudah ditentukan server)
           currentPrize = response.data.prize;
           currentCode = input;
           currentUserId = userId;
+          
+          // Ambil semua hadiah untuk display (dari server)
+          displayPrizes = response.data.displayPrizes || [4000, 6000, 8000, 10000, 15000, 25000, 30000, 50000];
           
           // Hide form and prize list button
           form.classList.add('fade-out');
@@ -1047,7 +1133,7 @@
               boxes.forEach((box, index) => {
                 setTimeout(() => {
                   box.classList.add('appear');
-                }, index * 100);
+                }, index * 120);
               });
             }, 100);
           }, 400);
@@ -1058,17 +1144,17 @@
         }
       } catch (error) {
         hideLoading();
-        showCustomPopup("❌ Terjadi kesalahan koneksi. Pastikan Google Apps Script sudah di-deploy dengan benar.");
+        showCustomPopup("❌ Terjadi kesalahan koneksi. Pastikan Google Apps Script sudah di-deploy dengan benar dan coba lagi!");
         console.error('Submit error:', error);
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Mulai Permainan';
+        submitBtn.textContent = '🚀 Mulai Berburu Hadiah';
       }
     }
 
     async function openBox(index) {
       if (boxOpened) {
-        showCustomPopup('⚠️ Kamu sudah membuka satu box! Refresh halaman untuk bermain lagi.');
+        showCustomPopup('⚠️ Anda sudah mengambil kesempatan ini! Refresh halaman untuk bermain lagi dengan kode baru.');
         return;
       }
       if (!currentPrize) {
@@ -1099,7 +1185,7 @@
           clickedBox.classList.add('opened');
         }, 300);
 
-        // Show other prizes after delay (menggunakan semua displayPrizes untuk efek menarik)
+        // Show other prizes after delay (menggunakan displayPrizes untuk efek menarik)
         setTimeout(() => {
           const availablePrizes = displayPrizes.filter(price => price !== currentPrize);
           shuffleArray(availablePrizes);
@@ -1122,7 +1208,7 @@
 
         // Show result message
         setTimeout(() => {
-          document.getElementById('result').textContent = `🎉 Selamat! Kamu mendapatkan hadiah ${formatRupiah(currentPrize)} 🎉`;
+          document.getElementById('result').textContent = `🎊 LUAR BIASA! Anda meraih hadiah ${formatRupiah(currentPrize)}! 🎊`;
         }, 800);
 
         // Update Google Sheets
@@ -1192,13 +1278,15 @@
       }
     });
 
-    // Input validation
+    // Input validation with enhanced feedback
     document.getElementById('userIdInput').addEventListener('input', function(e) {
       const value = e.target.value;
       if (value && !/^[a-zA-Z0-9]*$/.test(value)) {
         e.target.style.borderColor = '#ff6b6b';
+        e.target.style.boxShadow = '0 0 15px rgba(255, 107, 107, 0.3)';
       } else {
         e.target.style.borderColor = '#ffd700';
+        e.target.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
       }
     });
 
@@ -1206,8 +1294,10 @@
       const value = e.target.value;
       if (value && !/^[a-zA-Z0-9]*$/.test(value)) {
         e.target.style.borderColor = '#ff6b6b';
+        e.target.style.boxShadow = '0 0 15px rgba(255, 107, 107, 0.3)';
       } else {
         e.target.style.borderColor = '#ffd700';
+        e.target.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
       }
     });
 
